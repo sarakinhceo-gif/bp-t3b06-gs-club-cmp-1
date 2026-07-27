@@ -1,374 +1,107 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="slate" data-build="a1b2c3d4">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>강서 클럽 비교 - 정보 : 전문가가 검증한 클럽 데이터</title>
-    <meta name="description" content="강서구 클럽의 모든 것을 비교 분석합니다. 음악, 분위기, 가격, VIP 서비스까지 전문가가 검증한 데이터로 최적의 클럽을 선택하세요. 신뢰도 98%의 비교 차트 제공.">
-    <meta name="keywords" content="강서 클럽 비교, 강서구 클럽, 클럽 추천, 강서 나이트클럽, 홍대 클럽, 클럽 가격 비교, 클럽 리뷰, 클럽 데이터">
-    <meta name="author" content="강서 클럽 비교">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://t3b06-gs-club-cmp-1.vercel.app/">
-    <meta name="bpaas-design-system" content="brutalist-avantgarde">
-    <meta name="bpaas-design-theme" content="kr-neon-void">
-    <meta property="og:title" content="강서 클럽 비교 - 정보">
-    <meta property="og:description" content="강서구 클럽의 모든 것을 비교 분석합니다. 전문가가 검증한 데이터로 최적의 클럽을 선택하세요.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://t3b06-gs-club-cmp-1.vercel.app/info">
-    <meta property="og:image" content="https://t3b06-gs-club-cmp-1.vercel.app/og-image.jpg">
-    <meta name="twitter:card" content="summary_large_image">
-    <style>
-        /* 기본 리셋 및 전역 변수 */
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #111;
-            --text-primary: #f0f0f0;
-            --text-secondary: #999;
-            --accent-primary: #ff2d55;
-            --accent-secondary: #00e5ff;
-            --accent-tertiary: #7c3aed;
-            --border-color: #2a2a2a;
-            --card-bg: #1a1a1a;
-            --header-height: 60px;
-            --max-width: 1200px;
-            --font-mono: 'Courier New', monospace;
-            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-        body {
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            font-family: var(--font-sans);
-            line-height: 1.6;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(255, 255, 255, 0.03) 1px, rgba(255, 255, 255, 0.03) 2px);
-            pointer-events: none;
-            z-index: 0;
-        }
-        a { color: var(--accent-secondary); text-decoration: none; }
-        a:hover { color: var(--accent-primary); }
-        img { max-width: 100%; display: block; }
-
-        /* 헤더 */
-        header {
-            background: var(--bg-secondary);
-            border-bottom: 2px solid var(--accent-primary);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            height: var(--header-height);
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-        }
-        .header-inner {
-            max-width: var(--max-width);
-            margin: 0 auto;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--text-primary);
-        }
-        .logo span { color: var(--accent-primary); }
-
-        /* 햄버거 메뉴 */
-        .hamburger-menu {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            gap: 5px;
-            padding: 5px;
-        }
-        .hamburger-menu .bar {
-            width: 28px;
-            height: 3px;
-            background: var(--text-primary);
-            border-radius: 2px;
-            transition: .3s;
-        }
-        .hamburger-menu.active .bar:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-        .hamburger-menu.active .bar:nth-child(2) { opacity: 0; }
-        .hamburger-menu.active .bar:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
-        /* 내비게이션 */
-        nav {
-            display: flex;
-            align-items: center;
-            gap: 30px;
-        }
-        nav a {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            transition: .3s;
-        }
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -3px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent-primary);
-            transition: width .3s;
-        }
-        nav a:hover { color: var(--text-primary); }
-        nav a:hover::after { width: 100%; }
-        nav a.active { color: var(--text-primary); }
-        nav a.active::after { width: 100%; }
-
-        /* 메인 컨테이너 */
-        main {
-            flex: 1;
-            max-width: var(--max-width);
-            margin: 0 auto;
-            padding: 40px 20px;
-            width: 100%;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* 히어로 섹션 */
-        .hero {
-            text-align: center;
-            padding: 60px 0 30px;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 40px;
-        }
-        .hero h1 {
-            font-size: 2.8rem;
-            font-weight: 900;
-            letter-spacing: -1px;
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.7;
-        }
-
-        /* 정보 콘텐츠 */
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-        .info-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 30px;
-            border-radius: 8px;
-            transition: .3s;
-        }
-        .info-card:hover {
-            border-color: var(--accent-primary);
-            transform: translateY(-2px);
-        }
-        .info-card h3 {
-            font-size: 1.2rem;
-            color: var(--accent-primary);
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .info-card p {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            font-size: 0.95rem;
-        }
-        .info-card .stat {
-            display: inline-block;
-            background: var(--accent-tertiary);
-            color: var(--text-primary);
-            padding: 2px 10px;
-            border-radius: 4px;
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-        }
-
-        /* 데이터 표 */
-        .data-section {
-            margin-bottom: 50px;
-        }
-        .data-section h2 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 25px;
-            color: var(--text-primary);
-            border-left: 4px solid var(--accent-primary);
-            padding-left: 15px;
-        }
-        .data-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-        .data-item {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 25px;
-            text-align: center;
-            border-radius: 6px;
-        }
-        .data-item .number {
-            font-size: 2.2rem;
-            font-weight: 900;
-            color: var(--accent-secondary);
-            font-family: var(--font-mono);
-        }
-        .data-item .label {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-top: 8px;
-            text-transform: uppercase;
-        }
-
-        /* FAQ */
-        .faq-section {
-            margin-top: 50px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 40px;
-        }
-        .faq-section h2 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin-bottom: 30px;
-            text-align: center;
-            color: var(--text-primary);
-        }
-        .faq-item {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            margin-bottom: 15px;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-        .faq-question {
-            padding: 20px 25px;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: .3s;
-        }
-        .faq-question:hover { background: #222; }
-        .faq-question::after {
-            content: '+';
-            font-size: 1.5rem;
-            color: var(--accent-primary);
-            transition: .3s;
-        }
-        .faq-item.open .faq-question::after { content: '−'; }
-        .faq-answer {
-            padding: 0 25px 20px;
-            color: var(--text-secondary);
-            line-height: 1.8;
-            display: none;
-        }
-        .faq-item.open .faq-answer { display: block; }
-
-        /* 푸터 */
-        footer {
-            background: var(--bg-secondary);
-            border-top: 2px solid var(--border-color);
-            padding: 30px 20px;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-        }
-        footer a { color: var(--accent-secondary); }
-        footer a:hover { color: var(--accent-primary); }
-
-        /* 반응형 */
-        @media (max-width: 768px) {
-            .hamburger-menu { display: flex; }
-            nav {
-                display: none;
-                flex-direction: column;
-                background: var(--bg-secondary);
-                position: absolute;
-                top: var(--header-height);
-                left: 0;
-                width: 100%;
-                padding: 20px;
-                gap: 20px;
-                border-bottom: 2px solid var(--accent-primary);
-            }
-            nav.active { display: flex; }
-            .hero h1 { font-size: 2rem; }
-            .info-grid { grid-template-columns: 1fr; }
-            .data-grid { grid-template-columns: 1fr 1fr; }
-        }
-        @media (max-width: 480px) {
-            .data-grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 1.6rem; }
-            main { padding: 20px 15px; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>강서 클럽 정보</title>
+  <meta name="description" content="강서 지역 클럽을 비교하고, 현장 준비 담당자가 반드시 확인해야 할 연락 창구, 인원 변동 대비, 마무리 정산 방법 등을 한눈에 정리합니다. 처음 이용자를 위한 실무 가이드.">
+  <meta name="keywords" content="강서 클럽, 클럽 비교, 강서 클럽 안내, 현장 준비 체크리스트, 인원 변동 대비, 마무리 정산">
+  <link rel="canonical" href="https://gangseo-club-guide.mapo-room-guide.xyz/about.html">
+  <meta property="og:title" content="강서 클럽 비교 — 처음 이용자를 위한 준비 체크리스트">
+  <meta property="og:description" content="강서 클럽을 비교하고, 현장 준비 담당자를 위한 실무 체크리스트를 제공합니다.">
+  <meta property="og:url" content="https://gangseo-club-guide.mapo-room-guide.xyz/about.html">
+  <!-- 기존 CSS 파일은 그대로 사용 -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <div class="header-inner">
-            <div class="logo"><span>강서</span>클럽비교</div>
-            <div class="hamburger-menu" onclick="toggleMenu()">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
-            <nav id="mainNav">
-                <a href="/">홈</a>
-                <a href="/compare">비교</a>
-                <a href="/info" class="active">정보</a>
-                <a href="/reviews">리뷰</a>
-                <a href="/faq">FAQ</a>
-            </nav>
-        </div>
+
+  <!-- nav-present (전체 페이지 공통) -->
+  <nav class="nav-present">
+    <ul>
+      <li><a href="/index.html">홈</a></li>
+      <li><a href="/compare.html">클럽 비교</a></li>
+      <li><a href="/info.html">정보</a></li>
+      <li><a href="/contact.html">연락처</a></li>
+    </ul>
+  </nav>
+
+  <!-- 메인 콘텐츠 래퍼 -->
+  <div class="t-wrap-fbt0">
+
+    <!-- 페이지 헤드 -->
+    <header class="r-head-343b">
+      <h1 class="k-txt-82r7">강서 클럽 상세 정보</h1>
     </header>
 
-    <main>
-        <section class="hero">
-            <h1>강서 클럽 완전 분석</h1>
-            <p>데이터 기반으로 검증된 강서구 클럽의 모든 것. 음악 장르, 평균 음료 가격, VIP 서비스 만족도, 혼잡 지수까지 세부 항목별 비교를 통해 당신에게 가장 적합한 클럽을 찾아보세요.</p>
-        </section>
+    <!-- 섹션 1: 클럽 개요 -->
+    <section class="n-top-n0cc">
+      <h2 class="k-txt-82r7">클럽 개요와 지역 특성</h2>
+      <p class="k-txt-82r7">
+        강서구는 대중교통 접근성이 뛰어나면서도 넓은 공간을 활용할 수 있는 특성을 갖고 있습니다. 이 지역에 위치한 클럽들은 주로 20대 후반부터 40대 초반까지 다양한 연령층을 대상으로 하며, 주말과 평일 저녁에 활발히 운영됩니다. 특히, 강서구는 최근 몇 년간 문화·예술 인프라가 확충되면서 클럽 문화가 활기를 띠고 있어, 새로운 트렌드와 이벤트가 지속적으로 도입되고 있습니다.
+      </p>
+      <p class="k-txt-82r7">
+        각 클럽은 위치에 따라 고객층이 다르게 형성됩니다. 예를 들어, 마곡역 인근 클럽은 직장인과 대학생이 많이 찾는 반면, 화곡동 클럽은 가족 단위 방문객이 비교적 많습니다. 이러한 특성을 파악하면 현장 준비 담당자는 사전 준비 단계에서 맞춤형 서비스를 제공할 수 있어 운영 효율성을 크게 높일 수 있습니다.
+      </p>
+    </section>
 
-        <section class="info-grid">
-            <div class="info-card">
-                <h3>음악 & 분위기</h3>
-                <p>강서구 주요 클럽 5곳의 음악 장르를 분석한 결과, <span class="stat">EDM 40%</span> <span class="stat">힙합 35%</span> <span class="stat">팝/댄스 25%</span> 비율로 나타났습니다. 특히 금~토요일에는 EDM 비중이 52%까지 상승하며, 일요일에는 힙합 이벤트가 집중됩니다. 장르별 만족도는 힙합 클럽이 4.2/5로 가장 높았습니다.</p>
-            </div>
-            <div class="info-card">
-                <h3>가격 & 혜택</h3>
-                <p>평균 입장료 <span class="stat">₩25,000</span>, 평균 음료 가격 <span class="stat">₩8,500</span>으로 조사되었습니다. VIP 테이블 최소 금액은 ₩200,000에서 ₩500,000까지 다양하며, 얼리버드 할인(오후 10시 전 입장 시 30% 할인)을 제공하는 클럽이 3
+    <!-- 섹션 2: 현장 준비 체크리스트 -->
+    <section class="n-top-n0cc">
+      <h2 class="k-txt-82r7">현장 준비 체크리스트</h2>
+      <p class="k-txt-82r7">
+        현장 준비 담당자는 행사 전날 반드시 전기·조명·음향 설비 점검을 완료해야 합니다. 특히, 비상구와 소화기 위치를 확인하고, 안전 교육 자료를 현장 직원에게 배포하는 것이 필수입니다. 체크리스트에는 입장 인원 예상치, 좌석 배치도, 바 서비스 인력 배치표 등을 포함시켜야 합니다.
+      </p>
+      <p class="k-txt-82r7">
+        체크리스트는 디지털 문서와 프린트본을 동시에 준비해 두는 것이 좋습니다. 디지털 버전은 태블릿이나 스마트폰으로 실시간 업데이트가 가능하고, 프린트본은 전력 장애 시에도 활용할 수 있습니다. 또한, 각 항목에 담당자를 지정하고 진행 상황을 색상으로 구분하면, 전체 진행 상황을 한눈에 파악할 수 있어 현장 관리가 한층 수월해집니다.
+      </p>
+    </section>
+
+    <!-- 섹션 3: 인원 변동 대비 시나리오 -->
+    <section class="n-top-n0cc">
+      <h2 class="k-txt-82r7">인원 변동 대비 시나리오</h2>
+      <p class="k-txt-82r7">
+        예상 인원보다 입장이 급증하거나 급감하는 경우를 대비해 두 가지 시나리오를 준비합니다. 첫 번째는 “폭주 시나리오”로, 입장 인원이 20% 이상 초과될 때 추가 보안 인력을 배치하고, 일시적인 대기 공간을 마련합니다. 두 번째는 “저조 시나리오”로, 예상 인원 대비 30% 이하로 감소할 경우, 바와 음료 재고를 조정하고, 현장 조명과 음악 볼륨을 낮춰 분위기를 조절합니다.
+      </p>
+      <p class="k-txt-82r7">
+        각 시나리오에는 담당자 연락망을 미리 설정하고, 필요한 경우 즉시 알림 메시지를 발송할 수 있는 단축키 기반 시스템을 구축해 두는 것이 효과적입니다. 이렇게 사전 대비책을 마련하면, 급변하는 현장 상황에서도 침착하게 대응할 수 있어 고객 만족도를 높일 수 있습니다.
+      </p>
+    </section>
+
+    <!-- 섹션 4: 마무리 정산 팁 -->
+    <section class="n-top-n0cc">
+      <h2 class="k-txt-82r7">마무리 정산 팁</h2>
+      <p class="k-txt-82r7">
+        행사 종료 후 정산은 가능한 한 투명하게 진행해야 합니다. 매출 데이터는 POS 시스템에서 실시간 추출하고, 현금 영수증은 바로 기록해 두는 것이 핵심입니다. 또한, 바와 음식 제공 부문은 각각 별도 시트로 정리해 두면, 비용 항목을 쉽게 파악할 수 있습니다.
+      </p>
+      <p class="k-txt-82r7">
+        정산 시에는 각 담당자에게 사전 합의된 비율대로 정산액을 배분하고, 남은 금액은 차월 운영비로 전환합니다. 이때, 모든 거래 내역을 사진으로 찍어 클라우드 스토리지에 저장해 두면, 사후 검증 시 증빙 자료로 활용하기 편리합니다. 최종 정산 보고서는 PDF 형식으로 저장하고, 주요 이해관계자에게 공유하면 투명성을 확보할 수 있습니다.
+      </p>
+    </section>
+
+    <!-- 섹션 5: FAQ -->
+    <section class="n-top-n0cc">
+      <h2 class="k-txt-82r7">자주 묻는 질문(FAQ)</h2>
+
+      <h3 class="k-txt-82r7">Q1. 현장 담당자가 당일에 급히 교체될 경우 어떻게 해야 하나요?</h3>
+      <p class="k-txt-82r7">
+        교체 담당자는 최소 2시간 전까지 사전 연락망에 등록된 전화와 메신저를 통해 인수인계를 받는 것이 원칙입니다. 인수인계 체크리스트를 활용해 설비 점검, 인원 배치, 예산 현황 등을 빠르게 파악하고, 필요한 경우 현장 매니저가 직접 현장에 방문해 상황을 확인합니다.
+      </p>
+
+      <h3 class="k-txt-82r7">Q2. 비상 상황(화재·폭발 등) 발생 시 초기 대응 절차는?</h3>
+      <p class="k-txt-82r7">
+        비상 상황 발생 시 즉시 119에 신고하고, 현장에 설치된 비상벨을 작동합니다. 동시에, 모든 직원은 사전에 숙지한 비상 대피 경로를 따라 손님을 안전하게 안내하며, 소화기를 사용해 초기 진화가 가능한 경우 신속히 진압합니다. 사건 종료 후에는 사고 보고서를 작성해 향후 대응 매뉴얼에 반영합니다.
+      </p>
+
+      <h3 class="k-txt-82r7">Q3. 인원 변동에 따라 바 재고를 조정하는 최적 방법은?</h3>
+      <p class="k-txt-82r7">
+        인원 변동을 실시간으로 파악하려면 입장 시 QR 체크인 시스템을 활용하고, 입장 인원을 실시간 대시보드에 표시합니다. 대시보드 데이터를 기반으로 바 매니저가 재고 소진률을 체크하고, 필요한 경우 즉시 추가 주문이나 재배치를 진행합니다. 이렇게 하면 과잉 재고를 최소화하면서도 고객 만족도를 유지할 수 있습니다.
+      </p>
+    </section>
+
+    <!-- 푸터 (공통) -->
+    <footer class="r-ico-5sf4">
+      <p class="k-txt-82r7">© 2026 강서 클럽 가이드. 모든 권리 보유.</p>
+    </footer>
+
+  </div>
 </body>
 </html>
